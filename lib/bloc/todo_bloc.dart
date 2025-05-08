@@ -33,6 +33,24 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
         );
       }
     });
+    on<TodoEventComplete>((event, emit) {
+      final currentstate = state;
+      if (currentstate is TodoLoaded){
+        final List<Todo> updateTodos = List.from(currentstate.todos);
+        if (event.index >= 0 && event.index < updateTodos.length){
+          updateTodos[event.index] = Todo(
+            title: updateTodos[event.index].title, 
+            date: updateTodos[event.index].date, 
+            isComplete: !updateTodos[event.index].isComplete
+          );
+          emit(
+            TodoLoaded(
+              todos: updateTodos, 
+              selectedDate: currentstate.selectedDate)
+          );
+        }
+      }
+    });
   }
 }
 
