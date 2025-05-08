@@ -24,6 +24,15 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
         );
       }
     });
+    on<TodoSelectedDate>((event, emit) {
+      final currentstate = state;
+      if (currentstate is TodoLoaded){
+        emit(TodoLoaded(
+          todos: currentstate.todos, 
+          selectedDate: event.date)
+        );
+      }
+    });
   }
 }
 
